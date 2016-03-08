@@ -7,6 +7,14 @@ window.onload = function()
         dimension   = 3,
         dificultad  = 1;
         numVacios=document.getElementsByClassName("numero");
+        extension = "";
+        parteID=[];
+        pos=""; //es la separacion del id por medio de el simbolo "_"
+        arrayId=[];
+        arrayRes=[];
+        arrayfinal=[];
+        //arrayfinal=[];
+        y="solve";
 
 
     //Para cargar los combos...
@@ -19,6 +27,7 @@ window.onload = function()
         select.appendChild(opt);
     }
 
+
     /*
         Función en la cual llega lel valor escrito por el usaurio
         además de la posición del valor digitado en la mattriz...
@@ -30,40 +39,34 @@ window.onload = function()
     var validaSudoku = function(valor, id)
     {
         var parteID  = id.split("_");
+        parte=[];
 
         console.log(parteID)
         console.log(valor);
-        extension = "";
-        union = "solve";
-        for(var i=0;i<parteID.length;i++)
+        arrayfinal=[];
+
+        for(var h=0;h<numVacios.length;h++)
         {
-            extension=extension+"["+parteID[i]+"]";
-            console.log(extension);
+            parte.push(numVacios[h].id);           
+            arrayfinal.push(eval(nom_div(parte[h]).value));
         }
-        union=union+extension;
-        console.log(union);
-        if(valor==eval(union)&&contador<numVacios.length)
-        {
-            console.log("correcto");
-            contador+=1;
-            if(contador==numVacios.length)
-            {
-                alert("Lo lograste");
-                nuevoSudoku();
-            }
-        }
-        else
-        {
-            console.log("ingresa otro numero");
-            contador=0;
-        }
+        console.table(parte);   
     }
 
 
     var nuevoSudoku = (function nuevoSudoku()
     {
         var newSudoku = sudokuJS.creaSudoku(2, dificultad);
-        contador    = 0;
+        parteID.length=0;
+        pos=""; //es la separacion del id por medio de el simbolo "_"
+        arrayId.length=0;
+        //arrayRes.length=0;
+        arrayfinal.length=0;
+        //arrayfinal=[];
+        y="solve";
+
+
+
         sudoku = newSudoku.sudokujs;
         solve = newSudoku.respuesta;
         //Para dibujar el sudoku en html...
@@ -103,6 +106,7 @@ window.onload = function()
         }
         txt += "</table>";
         nom_div("escenario").innerHTML = txt;
+        valida();
         for(var i = 0; i < eventos.length; i++)
         {
             nom_div(eventos[i]).addEventListener("keyup", function(event)
@@ -110,6 +114,24 @@ window.onload = function()
                 if(isNumber(this.value) || this.value === "")
                 {
                     validaSudoku(this.value === "" ? 0 : Number(this.value), this.id);
+                   for(var m=0;m<numVacios.length;m++)
+                    {
+                        if(arrayRes[m]==arrayfinal[m])
+                        {
+                            contador=contador+1;
+                            if(contador==numVacios.length)
+                            {
+                                alert("Felicidades, has terminado");
+                                arrayRes.length=0;
+                                nuevoSudoku();
+                            }
+                        }
+                        else
+                        {
+                            contador=0;
+                            console.log("sigue intentando");
+                        }
+                    }
                 }
                 else
                 {
@@ -146,10 +168,30 @@ window.onload = function()
             }
         }
 	});
+    //****************************************************************************
+        
+    function valida()
+    {
+        for(var h=0;h<numVacios.length;h++)
+        {
+            parteID.push(numVacios[h].id);            
+            pos=parteID[h].split("_");
+            arrayId.push(pos);
+
+        }
+        for(var i=0;i<numVacios.length;i++)
+        {
+            arrayRes.push(eval(y+"["+arrayId[i][0]+"]["+arrayId[i][1]+"]["+arrayId[i][2]+"]["+arrayId[i][3]+"]"));
+        }
+        console.log(parteID);
+        console.table(arrayId);
+    }
+    //*************************************************************************************
 
     nom_div("nuevo").addEventListener('click', function(event)
     {
         nuevoSudoku();
+        valida();
     });
 
     for(var combo = 1; combo <= 2; combo++)
@@ -174,7 +216,7 @@ window.onload = function()
             nuevoSudoku();
         });
     }
-
+    
     function isNumber(n)
     {
         return !isNaN(parseFloat(n)) && isFinite(n);
