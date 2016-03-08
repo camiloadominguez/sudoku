@@ -21,10 +21,12 @@ window.onload = function()
     select = nom_div("opc_2");
     for (var i = 2; i<= 5; i++)
     {
+        arrayRes.length=0;
         var opt = document.createElement('option');
         opt.value = i;
         opt.innerHTML = i;
         select.appendChild(opt);
+
     }
 
 
@@ -123,6 +125,7 @@ window.onload = function()
                             {
                                 alert("Felicidades, has terminado");
                                 arrayRes.length=0;
+                                contador=0;
                                 nuevoSudoku();
                             }
                         }
@@ -190,14 +193,15 @@ window.onload = function()
 
     nom_div("nuevo").addEventListener('click', function(event)
     {
+        arrayRes.length=0;
         nuevoSudoku();
         valida();
     });
-
     for(var combo = 1; combo <= 2; combo++)
-    {
+    {   
         nom_div("opc_" + combo).addEventListener('change', function(event)
         {
+            arrayRes=[];
             var numOpc = Number(this.id.split("_")[1]);
             if(numOpc === 1)
             {
