@@ -56,7 +56,7 @@ window.onload = function()
 
     var nuevoSudoku = (function nuevoSudoku()
     {
-        var newSudoku = sudokuJS.creaSudoku(2, dificultad);
+        var newSudoku = sudokuJS.creaSudoku(dimension, dificultad);
         parteID.length=0;
         pos=""; //es la separacion del id por medio de el simbolo "_"
         arrayId.length=0;
