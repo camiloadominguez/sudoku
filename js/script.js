@@ -62,7 +62,7 @@ window.onload = function()
         parteID.length=0;
         pos=""; //es la separacion del id por medio de el simbolo "_"
         arrayId.length=0;
-        //arrayRes.length=0;
+        arrayRes.length=0;
         arrayfinal.length=0;
         //arrayfinal=[];
         y="solve";
@@ -193,15 +193,14 @@ window.onload = function()
 
     nom_div("nuevo").addEventListener('click', function(event)
     {
-        arrayRes.length=0;
+        
         nuevoSudoku();
-        valida();
     });
     for(var combo = 1; combo <= 2; combo++)
     {   
         nom_div("opc_" + combo).addEventListener('change', function(event)
         {
-            arrayRes=[];
+            arrayRes.length=0;
             var numOpc = Number(this.id.split("_")[1]);
             if(numOpc === 1)
             {
